@@ -4,7 +4,7 @@ const client = new Anthropic();
 
 export async function generateContent(prompt: string): Promise<string> {
   const message = await client.messages.create({
-    model: "claude-sonnet-4-5-20250514",
+    model: "claude-sonnet-4-5-latest",
     max_tokens: 4096,
     messages: [{ role: "user", content: prompt }],
   });
