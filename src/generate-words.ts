@@ -37,7 +37,7 @@ Generate exactly 10 vocabulary words for today's lesson. Output ONLY the Telegra
 **Already used in the last 30 days (DO NOT repeat these):**
 Words: ${used.words.length > 0 ? used.words.join(", ") : "none yet"}
 
-**Output format (follow EXACTLY):**
+**Output format (follow EXACTLY — this is Telegram HTML, use tags exactly as shown):**
 
 🌅 Good morning Koya! Today's Words
 
@@ -45,16 +45,20 @@ Words: ${used.words.length > 0 ? used.words.join(", ") : "none yet"}
 
 ━━━━━━━━━━━━━━━
 
-1. **word** (part of speech)
-   "Example sentence in casual conversation"
-   → Japanese translation / explanation
-   🔑 Tips: Nuance tip or comparison (if applicable)
+1. <b>word</b> (part of speech / category label like "phrasal verb", "slang adjective", etc.)
+
+<blockquote>"Example sentence in casual conversation"</blockquote>
+
+Japanese translation / explanation
+English nuance tip or comparison (if applicable, e.g. "Popular slang for mediocre — used for music, food, anything")
 
 ───────────────
 
-2. **word** (part of speech)
-   "Example sentence"
-   → Japanese translation / explanation
+2. <b>word</b> (part of speech / category)
+
+<blockquote>"Example sentence"</blockquote>
+
+Japanese translation / explanation
 
 ───────────────
 
@@ -63,7 +67,12 @@ Words: ${used.words.length > 0 ? used.words.join(", ") : "none yet"}
 ━━━━━━━━━━━━━━━
 💪 See you at noon for idioms!
 
-IMPORTANT: Output ONLY the message above. No preamble, no explanation outside the format.`;
+CRITICAL FORMAT RULES:
+- Use <b>word</b> for bold (NOT markdown **)
+- Use <blockquote>"sentence"</blockquote> for example sentences
+- Do NOT use any other HTML tags
+- Japanese explanation and English tips are plain text (no special formatting, no → prefix, no emoji labels)
+- Output ONLY the message above. No preamble.`;
 
   const message = await generateContent(prompt);
   await sendMessage(message);
@@ -76,7 +85,7 @@ IMPORTANT: Output ONLY the message above. No preamble, no explanation outside th
 }
 
 function extractWords(message: string): string[] {
-  const matches = message.matchAll(/\d+\.\s+\*\*(.+?)\*\*/g);
+  const matches = message.matchAll(/\d+\.\s+<b>(.+?)<\/b>/g);
   return [...matches].map((m) => m[1].toLowerCase().trim());
 }
 

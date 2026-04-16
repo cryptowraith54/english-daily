@@ -35,34 +35,49 @@ Create 5-8 quiz questions. Output ONLY the Telegram message, nothing else.
 - Japanese hints are OK for meaning-type questions
 - Aim for 5-8 questions total
 
-**Output format (follow EXACTLY):**
+**Output format (follow EXACTLY — this is Telegram HTML, use tags exactly as shown):**
 
 🌙 Night Quiz Time, Koya!
 
 今日の単語・イディオムを確認しよう💡
 
 ━━━━━━━━━━━━━━━
+
 【Q1 - Word】
-"Example sentence with _____ blank"
-→ Japanese hint if needed
+
+<blockquote>"Example sentence with _____ blank"</blockquote>
+
+Japanese hint if needed
 
 A) option1  B) option2  C) option3  D) option4
 
-||Answer: B) correct||
+<tg-spoiler>Answer: B) correct</tg-spoiler>
+
+───────────────
 
 【Q2 - Idiom】
-"Example sentence or situation"
-→ この状況で使う表現は？
+
+<blockquote>"Example sentence or situation"</blockquote>
+
+この状況で使う表現は？
 
 A) option1  B) option2  C) option3  D) option4
 
-||Answer: A) correct||
+<tg-spoiler>Answer: A) correct</tg-spoiler>
 
-[continue for 5-8 questions]
+───────────────
+
+[continue for 5-8 questions, with ─────────────── between each]
+
 ━━━━━━━━━━━━━━━
 ✅ 今日もお疲れ！明日の単語も楽しみにしててね
 
-IMPORTANT: Output ONLY the message above. No preamble, no explanation outside the format.`;
+CRITICAL FORMAT RULES:
+- Use <b>text</b> for bold (NOT markdown **)
+- Use <blockquote>"sentence"</blockquote> for example sentences/questions
+- Use <tg-spoiler>answer</tg-spoiler> for spoiler answers (NOT ||spoiler||)
+- Do NOT use any other HTML tags
+- Output ONLY the message above. No preamble.`;
 
   const message = await generateContent(prompt);
   await sendMessage(message);
