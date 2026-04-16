@@ -44,16 +44,22 @@ Words: ${used.words.length > 0 ? used.words.join(", ") : "none yet"}
 📅 ${today}
 
 ━━━━━━━━━━━━━━━
+
 1. **word** (part of speech)
    "Example sentence in casual conversation"
    → Japanese translation / explanation
-   💡 Nuance tip or comparison (if applicable)
+   🔑 Tips: Nuance tip or comparison (if applicable)
+
+───────────────
 
 2. **word** (part of speech)
    "Example sentence"
    → Japanese translation / explanation
 
-[continue to 10]
+───────────────
+
+[continue to 10, with ─────────────── between each entry]
+
 ━━━━━━━━━━━━━━━
 💪 See you at noon for idioms!
 

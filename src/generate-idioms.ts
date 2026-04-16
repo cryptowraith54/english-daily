@@ -32,9 +32,12 @@ Idioms: ${used.idioms.length > 0 ? used.idioms.join(", ") : "none yet"}
 ☀️ Midday Idioms for Koya
 
 ━━━━━━━━━━━━━━━
+
 1. **"Expression here"**
    "Example sentence in casual conversation"
    → Japanese translation / explanation
+
+───────────────
 
 2. **"Expression here"**
    "Example sentence"
@@ -44,7 +47,10 @@ Idioms: ${used.idioms.length > 0 ? used.idioms.join(", ") : "none yet"}
    "That's pretty crazy" → 結構ヤバい
    "That's way crazy" → めちゃくちゃヤバい
 
-[continue to 10]
+───────────────
+
+[continue to 10, with ─────────────── between each entry]
+
 ━━━━━━━━━━━━━━━
 🎯 Quiz tonight at 10PM — stay ready!
 
