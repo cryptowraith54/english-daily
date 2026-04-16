@@ -1,0 +1,83 @@
+name: English Daily Bot
+
+on:
+  schedule:
+    # JST 08:00 = UTC 23:00 (previous day)
+    - cron: "0 23 * * *"
+    # JST 12:00 = UTC 03:00
+    - cron: "0 3 * * *"
+    # JST 22:00 = UTC 13:00
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which job to run"
+        required: true
+        type: choice
+        options:
+          - words
+          - idioms
+          - quiz
+
+permissions:
+  contents: write
+
+jobs:
+  morning-words:
+    if: github.event.schedule == '0 23 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'words')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-words.ts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Update word history $(date -u +%Y-%m-%d)"
+          git push
+
+  midday-idioms:
+    if: github.event.schedule == '0 3 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'idioms')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-idioms.ts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git diff --staged --quiet || git commit -m "Update idiom history $(date -u +%Y-%m-%d)"
+          git push
+
+  night-quiz:
+    if: github.event.schedule == '0 13 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'quiz')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-quiz.ts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}

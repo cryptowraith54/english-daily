@@ -1,0 +1,20 @@
+{
+  "name": "english-daily",
+  "version": "1.0.0",
+  "description": "Daily English learning bot via Telegram",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "words": "tsx src/generate-words.ts",
+    "idioms": "tsx src/generate-idioms.ts",
+    "quiz": "tsx src/generate-quiz.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0"
+  }
+}
