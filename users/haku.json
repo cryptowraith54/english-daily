@@ -1,0 +1,18 @@
+{
+  "name": "Haku",
+  "explanationLanguage": "chinese-simplified",
+  "level": "beginner-elementary",
+  "levelDescription": "TOEIC 300-500 level, mix of beginner and lower-elementary. Test score 6/10. Weak on prepositions/collocations (e.g. 'interested in'), modern slang (lowkey, fire, pull off), phrasal verbs.",
+  "profile": "31岁女性,服装行业工作。曾住日本和中国。去夏威夷旅游过几次。目标是能和英语为母语的朋友自然地日常对话。",
+  "interests": "时尚(服装行业),海外旅行(特别是夏威夷),美容护肤,健身房,酒吧喝酒,电影,料理,高尔夫",
+  "contextHint": "fashion (apparel work), Hawaii vacation, skincare/beauty, gym sessions, bar nights with friends, movies, cooking, golf with friends",
+  "botTokenSecret": "HAKU_TELEGRAM_BOT_TOKEN",
+  "chatIdSecret": "HAKU_TELEGRAM_CHAT_ID",
+  "wordsBalance": "3 high-frequency simple words (core daily vocab) / 2 preposition collocations (her weak point - obsessed with, good at, interested in, tired of) / 2 simple phrasal verbs (hang out, pick up, figure out) / 2 general vocabulary / 1 beginner-friendly slang",
+  "idiomsBalance": "4 very common everyday idioms ('no worries', 'it is what it is', 'my bad') / 2 adverb nuance (super basic: really / pretty / so) / 2 simple phrasal verb idioms / 1-2 gentle slang (not too niche)",
+  "greetingMorning": "🌅 早上好 Haku! 今天的单词",
+  "greetingMidday": "☀️ 中午的短语学习",
+  "greetingEvening": "🌙 晚上测验时间, Haku!",
+  "greetingClose": "✅ 今天辛苦啦~明天的内容也要期待哦",
+  "quizIntro": "一起复习今天学的单词和短语吧💡"
+}

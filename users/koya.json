@@ -1,0 +1,18 @@
+{
+  "name": "Koya",
+  "explanationLanguage": "japanese",
+  "level": "intermediate",
+  "levelDescription": "TOEIC 600-750, can handle daily conversation, wants to sound native",
+  "profile": "20代男性、LAに4年住んでいた経験あり。現代のアメリカ(特にLA周辺)で使われる語彙・イディオムを学びたい。アメリカ人の友達とご飯・飲み・スポーツ・ドライブ・ジムなど日常シーンでネイティブレベルで自然に話せるようになるのが目標。",
+  "interests": "ファッション、スポーツ(観戦・プレイ)、音楽、食事、飲み会、ドライブ、ジム",
+  "contextHint": "gym, sports watch parties, late-night drives, bar/restaurant, fashion drops, music, LA lifestyle",
+  "botTokenSecret": "TELEGRAM_BOT_TOKEN",
+  "chatIdSecret": "TELEGRAM_CHAT_ID",
+  "wordsBalance": "2-3 general vocabulary / 2 high-frequency simple / 2-3 phrasal verbs / 1-2 collocations / 1-2 slang",
+  "idiomsBalance": "3-4 general idioms / 2 adverb nuance / 2-3 phrasal verb idioms / 1-2 slang idioms",
+  "greetingMorning": "🌅 Good morning Koya! Today's Words",
+  "greetingMidday": "☀️ Midday Idioms for Koya",
+  "greetingEvening": "🌙 Night Quiz Time, Koya!",
+  "greetingClose": "✅ 今日もお疲れ！明日の単語も楽しみにしててね",
+  "quizIntro": "今日の単語・イディオムを確認しよう💡"
+}

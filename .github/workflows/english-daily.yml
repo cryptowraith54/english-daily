@@ -18,13 +18,29 @@ on:
           - words
           - idioms
           - quiz
+      user:
+        description: "Which user"
+        required: true
+        type: choice
+        default: all
+        options:
+          - all
+          - koya
+          - haku
 
 permissions:
   contents: write
 
+# Only one writer at a time to avoid git push conflicts on data/
+concurrency:
+  group: english-daily-writer
+  cancel-in-progress: false
+
 jobs:
-  morning-words:
-    if: github.event.schedule == '0 23 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'words')
+  morning-words-koya:
+    if: |
+      github.event.schedule == '0 23 * * *' ||
+      (github.event_name == 'workflow_dispatch' && inputs.job == 'words' && (inputs.user == 'all' || inputs.user == 'koya'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -34,6 +50,7 @@ jobs:
       - run: npm ci
       - run: npx tsx src/generate-words.ts
         env:
+          USER_NAME: koya
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -41,12 +58,44 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
           git add data/
-          git diff --staged --quiet || git commit -m "Update word history $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "Update koya word history $(date -u +%Y-%m-%d)"
           git push
 
-  midday-idioms:
-    if: github.event.schedule == '0 3 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'idioms')
+  morning-words-haku:
+    if: |
+      !cancelled() && (
+        github.event.schedule == '0 23 * * *' ||
+        (github.event_name == 'workflow_dispatch' && inputs.job == 'words' && (inputs.user == 'all' || inputs.user == 'haku'))
+      )
+    runs-on: ubuntu-latest
+    needs: [morning-words-koya]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-words.ts
+        env:
+          USER_NAME: haku
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HAKU_TELEGRAM_BOT_TOKEN: ${{ secrets.HAKU_TELEGRAM_BOT_TOKEN }}
+          HAKU_TELEGRAM_CHAT_ID: ${{ secrets.HAKU_TELEGRAM_CHAT_ID }}
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
+          git add data/
+          git diff --staged --quiet || git commit -m "Update haku word history $(date -u +%Y-%m-%d)"
+          git push
+
+  midday-idioms-koya:
+    if: |
+      github.event.schedule == '0 3 * * *' ||
+      (github.event_name == 'workflow_dispatch' && inputs.job == 'idioms' && (inputs.user == 'all' || inputs.user == 'koya'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -56,6 +105,7 @@ jobs:
       - run: npm ci
       - run: npx tsx src/generate-idioms.ts
         env:
+          USER_NAME: koya
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -63,12 +113,44 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
           git add data/
-          git diff --staged --quiet || git commit -m "Update idiom history $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet || git commit -m "Update koya idiom history $(date -u +%Y-%m-%d)"
           git push
 
-  night-quiz:
-    if: github.event.schedule == '0 13 * * *' || (github.event_name == 'workflow_dispatch' && inputs.job == 'quiz')
+  midday-idioms-haku:
+    if: |
+      !cancelled() && (
+        github.event.schedule == '0 3 * * *' ||
+        (github.event_name == 'workflow_dispatch' && inputs.job == 'idioms' && (inputs.user == 'all' || inputs.user == 'haku'))
+      )
+    runs-on: ubuntu-latest
+    needs: [midday-idioms-koya]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-idioms.ts
+        env:
+          USER_NAME: haku
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HAKU_TELEGRAM_BOT_TOKEN: ${{ secrets.HAKU_TELEGRAM_BOT_TOKEN }}
+          HAKU_TELEGRAM_CHAT_ID: ${{ secrets.HAKU_TELEGRAM_CHAT_ID }}
+      - name: Commit updated data files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase
+          git add data/
+          git diff --staged --quiet || git commit -m "Update haku idiom history $(date -u +%Y-%m-%d)"
+          git push
+
+  night-quiz-koya:
+    if: |
+      github.event.schedule == '0 13 * * *' ||
+      (github.event_name == 'workflow_dispatch' && inputs.job == 'quiz' && (inputs.user == 'all' || inputs.user == 'koya'))
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -78,6 +160,25 @@ jobs:
       - run: npm ci
       - run: npx tsx src/generate-quiz.ts
         env:
+          USER_NAME: koya
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+  night-quiz-haku:
+    if: |
+      github.event.schedule == '0 13 * * *' ||
+      (github.event_name == 'workflow_dispatch' && inputs.job == 'quiz' && (inputs.user == 'all' || inputs.user == 'haku'))
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npx tsx src/generate-quiz.ts
+        env:
+          USER_NAME: haku
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          HAKU_TELEGRAM_BOT_TOKEN: ${{ secrets.HAKU_TELEGRAM_BOT_TOKEN }}
+          HAKU_TELEGRAM_CHAT_ID: ${{ secrets.HAKU_TELEGRAM_CHAT_ID }}

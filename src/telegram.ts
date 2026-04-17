@@ -1,12 +1,9 @@
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-
-if (!BOT_TOKEN || !CHAT_ID) {
-  throw new Error("TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID must be set");
-}
-
-export async function sendMessage(text: string): Promise<void> {
-  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+export async function sendMessage(
+  text: string,
+  botToken: string,
+  chatId: string
+): Promise<void> {
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
   // Telegram has a 4096 character limit per message
   const chunks = splitMessage(text, 4096);
@@ -16,7 +13,7 @@ export async function sendMessage(text: string): Promise<void> {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        chat_id: CHAT_ID,
+        chat_id: chatId,
         text: chunk,
         parse_mode: "HTML",
       }),
