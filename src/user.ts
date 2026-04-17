@@ -4,6 +4,7 @@ import { join } from "path";
 export interface UserProfile {
   name: string;
   explanationLanguage: string;
+  translateExamples?: boolean;
   level: string;
   levelDescription: string;
   profile: string;

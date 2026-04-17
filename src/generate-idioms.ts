@@ -18,6 +18,17 @@ async function main() {
         ? "Japanese"
         : "English";
 
+  const exampleBlock = user.translateExamples
+    ? `<blockquote>"Example sentence in casual conversation"
+Translation of the example sentence in ${
+        user.explanationLanguage === "chinese-simplified"
+          ? "Simplified Chinese"
+          : user.explanationLanguage === "japanese"
+            ? "Japanese"
+            : "English"
+      }</blockquote>`
+    : `<blockquote>"Example sentence in casual conversation"</blockquote>`;
+
   const prompt = `You are an English idiom/expression teacher for ${user.name}.
 
 **Student profile:** ${user.profile}
@@ -54,17 +65,17 @@ ${user.greetingMidday}
 
 1. <b>"Expression here"</b> (category label like "general idiom", "adverb nuance", "phrasal verb idiom", etc.)
 
-<blockquote>"Example sentence in casual conversation"</blockquote>
+${exampleBlock}
 
-Translation / explanation in ${langLabel}
+Translation of the idiom / explanation in ${langLabel}
 
 ───────────────
 
 2. <b>"Expression here"</b> (adverb nuance)
 
-<blockquote>"Example sentence"</blockquote>
+${exampleBlock.replace("Example sentence in casual conversation", "Another example sentence")}
 
-Translation in ${langLabel}
+Translation of the idiom in ${langLabel}
 Nuance comparison in ${langLabel} (for adverb items)
 
 ───────────────

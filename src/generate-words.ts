@@ -26,6 +26,17 @@ async function main() {
         ? "Japanese"
         : "English";
 
+  const exampleBlock = user.translateExamples
+    ? `<blockquote>"Example sentence in casual conversation"
+Translation of the example sentence in ${
+        user.explanationLanguage === "chinese-simplified"
+          ? "Simplified Chinese"
+          : user.explanationLanguage === "japanese"
+            ? "Japanese"
+            : "English"
+      }</blockquote>`
+    : `<blockquote>"Example sentence in casual conversation"</blockquote>`;
+
   const prompt = `You are an English vocabulary teacher for ${user.name}.
 
 **Student profile:** ${user.profile}
@@ -66,18 +77,18 @@ ${user.greetingMorning}
 
 1. <b>word</b> (part of speech / category label like "phrasal verb", "adj + prep", "slang adjective", etc.)
 
-<blockquote>"Example sentence in casual conversation"</blockquote>
+${exampleBlock}
 
-Translation in ${langLabel} / brief explanation in ${langLabel}
+Translation of the word in ${langLabel} / brief explanation in ${langLabel}
 Nuance tip or comparison in ${langLabel} (if applicable)
 
 ───────────────
 
 2. <b>word</b> (part of speech / category)
 
-<blockquote>"Example sentence"</blockquote>
+${exampleBlock.replace("Example sentence in casual conversation", "Another example sentence")}
 
-Translation / explanation in ${langLabel}
+Translation of the word / explanation in ${langLabel}
 
 ───────────────
 
