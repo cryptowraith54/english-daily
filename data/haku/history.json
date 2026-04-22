@@ -104,6 +104,21 @@
         "announce",
         "bet"
       ]
+    },
+    {
+      "date": "2026-04-22",
+      "items": [
+        "available",
+        "spend",
+        "forgot",
+        "worried about",
+        "good with",
+        "try out",
+        "put on",
+        "remind",
+        "original",
+        "my bad"
+      ]
     }
   ],
   "idioms": [
